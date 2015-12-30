@@ -17,3 +17,6 @@ server:
 security:
   basic:
     enabled: false
+
+multipart:
+  max-file-size: 200mb
