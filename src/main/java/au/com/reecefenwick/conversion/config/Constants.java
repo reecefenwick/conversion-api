@@ -1,4 +1,4 @@
-package au.com.suncorp.helloworld.config;
+package au.com.reecefenwick.conversion.config;
 
 /**
  * Application constants.

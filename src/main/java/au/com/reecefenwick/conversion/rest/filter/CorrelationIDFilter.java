@@ -1,4 +1,4 @@
-package au.com.suncorp.helloworld.rest.filter;
+package au.com.reecefenwick.conversion.rest.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,6 +1,6 @@
-package au.com.suncorp.helloworld.config.apidoc;
+package au.com.reecefenwick.conversion.config.apidoc;
 
-import au.com.suncorp.helloworld.config.Constants;
+import au.com.reecefenwick.conversion.config.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.bind.RelaxedPropertyResolver;

@@ -1,4 +1,4 @@
-package au.com.suncorp.helloworld.domain;
+package au.com.reecefenwick.conversion.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;

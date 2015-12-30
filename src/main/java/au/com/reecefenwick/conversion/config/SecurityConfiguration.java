@@ -1,4 +1,4 @@
-package au.com.suncorp.helloworld.config;
+package au.com.reecefenwick.conversion.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

@@ -1,4 +1,4 @@
-package au.com.suncorp.helloworld.utils;
+package au.com.reecefenwick.conversion.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,9 +1,9 @@
-package au.com.suncorp.helloworld.rest;
+package au.com.reecefenwick.conversion.rest;
 
-import au.com.suncorp.helloworld.Application;
-import au.com.suncorp.helloworld.domain.Car;
-import au.com.suncorp.helloworld.repository.CarRepository;
-import au.com.suncorp.helloworld.utils.TestUtil;
+import au.com.reecefenwick.conversion.Application;
+import au.com.reecefenwick.conversion.domain.Car;
+import au.com.reecefenwick.conversion.repository.CarRepository;
+import au.com.reecefenwick.conversion.utils.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

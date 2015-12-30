@@ -1,7 +1,7 @@
-package au.com.suncorp.helloworld.rest;
+package au.com.reecefenwick.conversion.rest;
 
-import au.com.suncorp.helloworld.domain.Car;
-import au.com.suncorp.helloworld.repository.CarRepository;
+import au.com.reecefenwick.conversion.domain.Car;
+import au.com.reecefenwick.conversion.repository.CarRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package au.com.suncorp.helloworld;
+package au.com.reecefenwick.conversion;
 
-import au.com.suncorp.helloworld.config.Constants;
+import au.com.reecefenwick.conversion.config.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
