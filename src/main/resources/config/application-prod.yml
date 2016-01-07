@@ -15,27 +15,3 @@ endpoints:
 spring:
     profiles:
         active: prod
-    datasource:
-        dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-        url:
-        databaseName:
-        serverName:
-        username:
-        password:
-
-    jpa:
-        database-platform: org.hibernate.dialect.PostgreSQL82Dialect
-        database: POSTGRESQL
-        openInView: false
-        show_sql: false
-        generate-ddl: false
-        hibernate:
-            ddl-auto: none
-            naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
-        properties:
-            hibernate.cache.use_second_level_cache: false
-            hibernate.cache.use_query_cache: false
-            hibernate.generate_statistics: false
-    endpoints:
-        enabled: false
-        sensitive: false

@@ -1,6 +1,6 @@
-package au.com.reecefenwick.conversion;
+package au.com.reecefenwick.conversion.rest;
 
-import au.com.reecefenwick.conversion.rest.ConversionController;
+import au.com.reecefenwick.conversion.Application;
 import au.com.reecefenwick.conversion.service.DocConversionService;
 import com.google.common.io.Files;
 import org.junit.Before;
