@@ -1,36 +1,42 @@
 package au.com.reecefenwick.conversion.rest;
 
-import com.icafe4j.image.ImageColorType;
-import com.icafe4j.image.ImageParam;
-import com.icafe4j.image.options.TIFFOptions;
-import com.icafe4j.image.quant.DitherMethod;
-import com.icafe4j.image.quant.DitherMatrix;
-import com.icafe4j.image.tiff.TIFFTweaker;
-import com.icafe4j.image.tiff.TiffFieldEnum;
-import com.icafe4j.io.FileCacheRandomAccessOutputStream;
-import com.icafe4j.io.RandomAccessOutputStream;
+import au.com.reecefenwick.conversion.service.DocConversionService;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.util.ImageIOUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
-
 @RestController
 public class ConversionController {
 
-    @RequestMapping(value = "/api/convert", method = RequestMethod.POST)
+    @Autowired
+    private DocConversionService docConversionService;
+
+    /**
+     * Example to process each PDF page separately
+     * @param fileToConvert
+     * @throws IOException
+     */
+    @RequestMapping(value = "/api/test", method = RequestMethod.POST)
+    @ApiIgnore
     public void convertFile(MultipartFile fileToConvert) throws IOException {
-        PDDocument document = PDDocument.loadNonSeq(fileToConvert.getInputStream(), null);
+        PDDocument document = docConversionService.parsePDF(fileToConvert.getInputStream());
+
         List<PDPage> pdPages = document.getDocumentCatalog().getAllPages();
         int page = 0;
+
         for (PDPage pdPage : pdPages) {
             ++page;
             BufferedImage bim = pdPage.convertToImage(BufferedImage.TYPE_INT_RGB, 300);
@@ -40,41 +46,19 @@ public class ConversionController {
         document.close();
     }
 
-    @RequestMapping(value = "/api/test", method = RequestMethod.POST)
-    public void test(MultipartFile fileToConvert) throws IOException {
+    @RequestMapping(value = "/api/convert", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void convertPdfToTiff(@RequestParam(value = "file", required = true) MultipartFile fileToConvert, HttpServletResponse response)throws IOException {
+
         PDDocument pddoc = PDDocument.load(fileToConvert.getInputStream());
 
-        savePdfAsTiff(pddoc);
-    }
+        response.setContentType("image/tiff");
+        response.setHeader("Content-Disposition", "attachment; filename=" + UUID.randomUUID() + ".tiff");
 
-    private static void savePdfAsTiff(PDDocument pdf) throws IOException {
-        BufferedImage[] images = new BufferedImage[pdf.getNumberOfPages()];
-        for (int i = 0; i < images.length; i++) {
-            PDPage page = (PDPage) pdf.getDocumentCatalog().getAllPages()
-                    .get(i);
-            BufferedImage image;
-            try {
-              image = page.convertToImage(BufferedImage.TYPE_INT_RGB, 288); //works
-//                image = page.convertToImage(BufferedImage.TYPE_INT_RGB, 300); // does not work
-                images[i] = image;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        docConversionService.savePdfAsTiff(pddoc, response.getOutputStream());
 
-        FileOutputStream fos = new FileOutputStream("a.tiff");
-        RandomAccessOutputStream rout = new FileCacheRandomAccessOutputStream(
-                fos);
-        ImageParam.ImageParamBuilder builder = ImageParam.getBuilder();
-        ImageParam[] param = new ImageParam[1];
-        TIFFOptions tiffOptions = new TIFFOptions();
-        tiffOptions.setTiffCompression(TiffFieldEnum.Compression.CCITTFAX4);
-        builder.imageOptions(tiffOptions);
-        builder.colorType(ImageColorType.BILEVEL).ditherMatrix(DitherMatrix.getBayer8x8Diag()).applyDither(true).ditherMethod(DitherMethod.BAYER);
-        param[0] = builder.build();
-        TIFFTweaker.writeMultipageTIFF(rout, param, images);
-        rout.close();
-        fos.close();
+        pddoc.close();
+
+        response.flushBuffer();
     }
 
 }
